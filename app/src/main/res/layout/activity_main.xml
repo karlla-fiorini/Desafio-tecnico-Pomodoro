@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/StateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:text="Iniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TimerText"
+        app:layout_constraintVertical_bias="0.236" />
+
+    <TextView
+        android:id="@+id/TimerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:text="25:00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.161" />
+
+    <EditText
+        android:id="@+id/TotalTimer"
+        android:layout_width="76dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="12dp"
+        android:hint="Minutos"
+        android:inputType="number"
+        android:maxLength="2"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/SetTimer"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/SetTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Alterar o Timer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/DailyPomos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Pomos do dia"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/Pomos"
+        android:layout_width="37dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
+        android:layout_marginBottom="24dp"
+        android:text="0"
+        android:visibility="invisible"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/DailyPomos"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/Break"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Intervalo"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TimerText"
+        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
