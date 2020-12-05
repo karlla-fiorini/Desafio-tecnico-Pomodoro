@@ -1,10 +1,16 @@
 package com.example.karllita;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,24 +22,23 @@ public class MainActivity extends AppCompatActivity {
 
     //RestTime Rest = new RestTime();
 
-    //Switch
-
     CountDownTimer CDT;
-    CountDownTimer Rest5;
 
     TextView Timer;
     TextView Pomos;
+    TextView Pergunta;
     EditText Time;
 
     Button StateButton;
     Button SetTimer;
     Button PomosButton;
     Button BreakButton;
+    Button AgreeBotton;
+    Button DesagreeBotton;
 
-    long TotalTime = 10000;
+    long TotalTime = 3000;
     long RemainingTime = TotalTime;
 
-    boolean Started = true;
     boolean SET = false;
     boolean PomoView = false;
 
@@ -47,19 +52,23 @@ public class MainActivity extends AppCompatActivity {
         Timer = findViewById(R.id.TimerText);
         Time = findViewById(R.id.TotalTimer);
         Pomos = findViewById(R.id.Pomos);
+        Pergunta = findViewById(R.id.Break10);
 
         StateButton = findViewById(R.id.StateButton);
         PomosButton = findViewById(R.id.DailyPomos);
         SetTimer = findViewById(R.id.SetTimer);
         BreakButton = findViewById(R.id.Break);
+        AgreeBotton = findViewById(R.id.Agree);
+        DesagreeBotton = findViewById(R.id.Desagree);
 
 
         StateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                State();
+                Start();
                 SetTimer.setVisibility(View.INVISIBLE);
                 BreakButton.setVisibility(View.VISIBLE);
+                StateButton.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -97,9 +106,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Pause();
-                reset();
-                Rest();
+                Break();
+            }
+        });
 
+        AgreeBotton.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AgreeBotton.setVisibility(View.INVISIBLE);
+                DesagreeBotton.setVisibility(View.INVISIBLE);
+                Pergunta.setVisibility(View.INVISIBLE);
+
+                Pause();
+                Break10();
+            }
+        });
+
+        DesagreeBotton.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AgreeBotton.setVisibility(View.INVISIBLE);
+                DesagreeBotton.setVisibility(View.INVISIBLE);
+                Pergunta.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -109,28 +137,12 @@ public class MainActivity extends AppCompatActivity {
         reset();
     }
 
-    public void reset (){
-        RemainingTime = TotalTime;
-        Timer(RemainingTime);
-    }
-
-    public void State (){
-
-        if(Started){
-            Start();
-        }else{
-            Pause();
-        }
-
-    }
-
     public void Start (){
 
         CDT = new CountDownTimer(RemainingTime + 1000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
-
                 RemainingTime = millisUntilFinished;
                 Timer(RemainingTime);
             }
@@ -139,19 +151,25 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 PomosAmount++;
                 Pomos.setText(Integer.toString(PomosAmount));
+
+                if(PomosAmount % 4 == 0){
+                    Break10Not();
+                }
+
                 reset();
-                Rest();
+                Start();
             }
         }.start();
-        Started = false;
-        StateButton.setText("Pausar");
 
     }
 
     public void Pause (){
         CDT.cancel();
-        Started = true;
-        StateButton.setText("Continuar");
+    }
+
+    public void reset (){
+        RemainingTime = TotalTime;
+        Timer(RemainingTime);
     }
 
     public void Timer(long RemainingTime){
@@ -167,8 +185,9 @@ public class MainActivity extends AppCompatActivity {
         Timer.setText(ActualTime);
     }
 
-    public void Rest(){
-        Rest5 = new CountDownTimer(5000,1000){
+    public void Break(){
+        Timer.setTextColor(Color.parseColor("#FF6200EE"));
+        CDT = new CountDownTimer(5000,1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 Timer(millisUntilFinished);
@@ -176,9 +195,67 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                reset();
+                Timer.setTextColor(Color.parseColor("#808080"));
+                Pause();
                 Start();
             }
         }.start();
     }
+
+    public void Break10Not() {
+
+        AgreeBotton.setVisibility(View.VISIBLE);
+        DesagreeBotton.setVisibility(View.VISIBLE);
+        Pergunta.setVisibility(View.VISIBLE);
+    }
+
+    public void Break10(){
+        Timer.setTextColor(Color.parseColor("#FF6200EE"));
+        CDT = new CountDownTimer(600000,1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Timer(millisUntilFinished);
+            }
+
+            @Override
+            public void onFinish() {
+                Timer.setTextColor(Color.parseColor("#808080"));
+                Pause();
+                Start();
+            }
+        }.start();
+    }
+
+    public void criarNotificacaoSimples(){
+        int id = 1;
+        String titulo = "Título da Notificação";
+        String texto = "Texto da notificação Simples";
+        int icone = android.R.drawable.ic_dialog_info;
+
+        Intent intent = new Intent(this, TextoActivity.class);
+
+        PendingIntent p = getPendingIntent(id, intent, this);
+
+        NotificationCompat.Builder notificacao = new NotificationCompat.Builder(this);
+        notificacao.setSmallIcon(icone);
+        notificacao.setContentTitle(titulo);
+        notificacao.setContentText(texto);
+        notificacao.setContentIntent(p);
+
+        NotificationManagerCompat nm = NotificationManagerCompat.from(this);
+        nm.notify(id, notificacao.build());
+    }
+
+    private PendingIntent getPendingIntent(int id, Intent intent, Context context){
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(intent.getComponent());
+        stackBuilder.addNextIntent(intent);
+
+        PendingIntent p = stackBuilder.getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT);
+        return p;
+    }
+
+    NotificationManagerCompat nm = NotificationManagerCompat.from(this);
+    nm.notify(id, notificacao.build());
+
 }

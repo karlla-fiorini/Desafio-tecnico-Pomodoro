@@ -77,9 +77,9 @@
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
         android:layout_marginBottom="24dp"
+        android:gravity="center"
         android:text="0"
         android:visibility="invisible"
-        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/DailyPomos"
         app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible" />
@@ -89,13 +89,58 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Intervalo"
-        android:visibility="invisible"
+        android:textColor="#FFFFFF"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/TimerText"
         app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/Agree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:text="Sim"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/Desagree"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StateButton"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/Desagree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:text="Não"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Agree"
+        app:layout_constraintTop_toBottomOf="@+id/StateButton"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/Break10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:text="Descansar 10 min?"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Desagree"
+        app:layout_constraintHorizontal_bias="0.612"
+        app:layout_constraintStart_toEndOf="@+id/Agree"
+        app:layout_constraintTop_toBottomOf="@+id/TimerText"
+        app:layout_constraintVertical_bias="0.259"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
